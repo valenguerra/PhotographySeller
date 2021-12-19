@@ -1,17 +1,20 @@
 import styled, { css } from "styled-components";
 import { color, layout, position, space } from "styled-system";
 import { FiChevronRight, FiChevronLeft } from "react-icons/fi";
+import { AiOutlineInstagram, AiOutlineWhatsApp } from "react-icons/ai";
 
 export const icons = {
   simpleArrowRight: FiChevronRight,
   simpleArrowLeft: FiChevronLeft,
+  instagram: AiOutlineInstagram,
+  whatsapp: AiOutlineWhatsApp,
 };
 
 export const Icon = styled.svg`
   color: inherit;
   overflow: visible;
   ${p => getSize(p)}
-  ${p => p.strokeWidth ?? `strokeWidth: ${p.strokeWidth}`}
+  ${p => p.strokeWidth ?? `strokeWidth: ${p.strokeWidth};`}
   ${p =>
     p.button &&
     css`

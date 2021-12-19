@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { layout, position, space } from "styled-system";
-import { cssFlexbox } from "../util/custom-properties";
+import { cssFlexbox } from "../app/custom-properties";
 
 export const Column = styled.div`
   display: flex;
