@@ -10,93 +10,103 @@ import { PhotoSection } from "../components/photo-section";
 import { Footer } from "../components/footer";
 import { Divider } from "../components/divider";
 import dynamic from "next/dynamic";
+import { getCategories, getProducts } from "../app/api";
+import { Page } from "../components/page";
+import { ContactPopup } from "../components/contact-popup";
+import { useState } from "react";
 
 const Responsive = dynamic(() => import("../components/responsive"), { ssr: false });
 
-const images = [
-  "https://images.unsplash.com/photo-1638368012876-5812dd95d7cc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHx0b3BpYy1mZWVkfDJ8NnNNVmpUTFNrZVF8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=60",
-  "https://images.unsplash.com/photo-1638091990389-7f4d9bbe8d81?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHx0b3BpYy1mZWVkfDV8NnNNVmpUTFNrZVF8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=60",
-  "https://images.unsplash.com/photo-1638091990389-7f4d9bbe8d81?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHx0b3BpYy1mZWVkfDV8NnNNVmpUTFNrZVF8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=60",
-  "https://images.unsplash.com/photo-1638368012876-5812dd95d7cc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHx0b3BpYy1mZWVkfDJ8NnNNVmpUTFNrZVF8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=60",
-];
+export const getStaticProps = async () => {
+  const products = await getProducts();
+  const categories = await getCategories();
+  const sections = [];
 
-export const getServerSideProps = async context => {
+  categories.forEach(c => {
+    const catProducts = products.filter(p => {
+      const catIds = p.attributes.categories.data.map(cat => cat.id);
+      for (let id of catIds) {
+        if (id === c.id) return true;
+      }
+      return false;
+    });
+    if (catProducts.length < 4) return;
+    sections.push({
+      id: c.id,
+      name: c.attributes.name,
+      images: catProducts.map(
+        cp => process.env.STRAPI_URL + cp.attributes.image.data.attributes.formats.large.url
+      ),
+    });
+  });
+
   return {
-    props: {
-      sections: [
-        { id: "abc123", name: "Naturaleza", images: images },
-        { id: "abc124", name: "Urbano", images: images },
-        { id: "abc125", name: "Arquitectura", images: images },
-        { id: "abc126", name: "Personas", images: images },
-        { id: "abc127", name: "Farolas", images: images },
-      ],
-    },
+    props: { sections },
   };
 };
 
 export default function Home({ sections }) {
+  const [contactPopupIsOpen, setContactPopupIsOpen] = useState(false);
+
   return (
-    <>
-      {/* <Header
-        left={<TextButton t='Volver' ml='8px' pl='4px' left={<Icon mr='8px' as={icons.simpleArrowLeft} />} />}
-        right={
-          <Row gap='16px' mr='8px'>
-            <Icon mr='8px' as={icons.instagram} button />
-            <Icon mr='8px' as={icons.whatsapp} button />
-          </Row>
-        }
-      /> */}
-      <Main>
-        <Column gap='48px'>
-          <DecoratedTitle />
-          <Row justifyContent='center' gap='8px'>
-            <TextButton t='Instagram' left={<Icon mr='8px' as={icons.instagram} />} />
-            <Box width='2px' bg='primary200' />
-            <TextButton t='Whatsapp' left={<Icon mr='8px' as={icons.whatsapp} />} />
-          </Row>
-          <Text
-            fontSize={[3, 4]}
-            fontWeight='extraLight'
-            width='100%'
-            mx='auto'
-            textAlign='center'
-            display='block'
-          >
-            Mar del Plata, Argentina.
-            <br />
-            <Highlighted>Envios a todo el país</Highlighted>
-          </Text>
-          <Column>
-            <Responsive>
-              {({ isDesktop }) => (
-                <>
-                  <Box
-                    width='100%'
-                    py='20px'
-                    my='12px'
-                    bg='accent300'
-                    display='flex'
-                    justifyContent='center'
-                    borderRadius={isDesktop ? "small" : 0}
-                  >
-                    <Text t='Catálogo de fotos' fontWeight='medium' fontSize='4' />
-                  </Box>
-                  {sections.map((s, i) => {
-                    return (
-                      <Box key={s.id}>
-                        <PhotoSection section={s} />
-                        {i < sections.length - 1 && <Divider my='12px' />}
-                      </Box>
-                    );
-                  })}
-                </>
-              )}
-            </Responsive>
-          </Column>
+    <Page>
+      <Column gap='48px' pt='32px'>
+        <DecoratedTitle />
+        <Row justifyContent='center' gap='8px'>
+          <TextButton
+            t='Instagram'
+            left={<Icon mr='8px' as={icons.instagram} />}
+            onClick={() => setContactPopupIsOpen(true)}
+          />
+          <Box width='2px' bg='primary200' />
+          <TextButton
+            t='Whatsapp'
+            left={<Icon mr='8px' as={icons.whatsapp} />}
+            onClick={() => setContactPopupIsOpen(true)}
+          />
+        </Row>
+        <Text
+          fontSize={[3, 4]}
+          fontWeight='extraLight'
+          width='100%'
+          mx='auto'
+          textAlign='center'
+          display='block'
+        >
+          Mar del Plata, Argentina.
+          <br />
+          <Highlighted>Envios a todo el país</Highlighted>
+        </Text>
+        <Column>
+          <Responsive>
+            {({ isDesktop }) => (
+              <>
+                <Box
+                  width='100%'
+                  py='20px'
+                  my='12px'
+                  bg='accent300'
+                  display='flex'
+                  justifyContent='center'
+                  borderRadius={isDesktop ? "small" : 0}
+                >
+                  <Text t='Catálogo de fotos' fontWeight='medium' fontSize='4' />
+                </Box>
+                {sections.map((s, i) => {
+                  return (
+                    <Box key={s.id}>
+                      <PhotoSection section={s} />
+                      {i < sections.length - 1 && <Divider my='12px' />}
+                    </Box>
+                  );
+                })}
+              </>
+            )}
+          </Responsive>
         </Column>
-      </Main>
-      <Footer />
-    </>
+      </Column>
+      {contactPopupIsOpen && <ContactPopup onClose={() => setContactPopupIsOpen(false)} />}
+    </Page>
   );
 }
 

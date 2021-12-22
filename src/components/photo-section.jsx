@@ -5,11 +5,13 @@ import Image from "next/image";
 import { Button } from "./button";
 import styled from "styled-components";
 import Responsive from "./responsive";
+import { useRouter } from "next/router";
 
 export const PhotoSection = ({ section: { name, images, id } }) => {
-  const paddingX = "20px";
+  const router = useRouter();
 
-  const onSeeMore = () => {};
+  const paddingX = "20px";
+  const onSeeMore = () => router.push(`/products?category=${id}&colorFilter=0`);
 
   return (
     <Column pt='20px' pb='28px'>

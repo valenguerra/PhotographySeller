@@ -10,14 +10,8 @@ Anotaciones:
 - getInitialProps: NextJS no recomienda usarla más.
 - getServerSideProps: es como getStaticProps pero llos datos se recargan cada vez que el usuario actualiza la página.
 
-TODO: Hacer los componentes
-// Button (variant=[primary, secondary])
-- PhotosSection
-// Header
-// Tab
-// TabBar
-- ImageCard
-- SuperTitle
-
+TODO:
+- Si la seccion no tiene ninguna foto, que no se muestre el boton
+- Que las seccioens se ordenen alfabeticamente
 
 */

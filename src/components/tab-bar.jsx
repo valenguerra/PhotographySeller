@@ -10,7 +10,7 @@ export const TabBar = ({ tabs, value, onChange }) => {
     <Wrapper>
       {tabs.map((t, i) => (
         <Row key={t.id} alignItems='center'>
-          <Tab t={t.name} selected={value === t.id} onClick={() => onChange(t.id)} />
+          <Tab t={t.name} selected={value == t.id} onClick={() => onChange(t.id)} />
         </Row>
       ))}
       <Box width='20px' />

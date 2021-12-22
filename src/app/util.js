@@ -19,3 +19,26 @@ export function shadeColor(color, percent) {
 
   return "#" + RR + GG + BB;
 }
+
+export const priceFormat = num => {
+  num = num.toFixed(2) + "";
+  num = num.replace(/\d(?=(\d{3})+\.)/g, "$&,");
+  num = num.replace(/,/g, "#");
+  num = num.replace(/\./g, ",");
+  num = num.replace(/#/g, ".");
+  return "$" + num;
+};
+
+export const getHighestResFormatURL = image => {
+  try {
+    const formats = image.data.attributes.formats;
+    let format = formats.thumbnail;
+    if (formats.large) format = formats.large;
+    if (formats.medium) format = formats.medium;
+    if (formats.small) format = formats.small;
+    return process.env.STRAPI_URL + format.url;
+  } catch (e) {
+    console.log("Image error", e);
+    return "/images/image-placeholder.jpg";
+  }
+};

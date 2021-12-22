@@ -2,7 +2,7 @@ import Color from "color";
 
 // Colors
 const primary = Color("#929292");
-const accent = Color("#c58952");
+const accent = Color("#cca27b");
 const neutral = Color("#929292");
 
 export const theme = {
