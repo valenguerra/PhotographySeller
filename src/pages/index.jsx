@@ -34,9 +34,7 @@ export const getStaticProps = async () => {
     sections.push({
       id: c.id,
       name: c.attributes.name,
-      images: catProducts.map(
-        cp => process.env.STRAPI_URL + cp.attributes.image.data.attributes.formats.large.url
-      ),
+      images: catProducts.map(cp => getHighestResFormatURL(cp.attributes.image)),
     });
   });
 

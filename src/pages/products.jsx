@@ -36,7 +36,7 @@ export const getStaticProps = async () => {
         price: priceFormat(p.attributes.price),
         colorFilterId: p.attributes.color_filter.data.id,
         categoryIds: p.attributes.categories.data.map(c => c.id),
-        image: process.env.STRAPI_URL + p.attributes.image.data.attributes.formats.large.url,
+        image: getHighestResFormatURL(p.attributes.image),
       })),
     },
   };
