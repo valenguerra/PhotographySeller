@@ -14,6 +14,7 @@ import { getCategories, getProducts } from "../app/api";
 import { Page } from "../components/page";
 import { ContactPopup } from "../components/contact-popup";
 import { useState } from "react";
+import { getHighestResFormatURL } from "../app/util";
 
 const Responsive = dynamic(() => import("../components/responsive"), { ssr: false });
 

@@ -10,7 +10,7 @@ import { TabBar } from "../components/tab-bar";
 import { ImageCard } from "../components/image-card";
 import { getCategories, getColorFilters, getProducts } from "../app/api";
 import { useRouter } from "next/dist/client/router";
-import { priceFormat } from "../app/util";
+import { getHighestResFormatURL, priceFormat } from "../app/util";
 import dynamic from "next/dynamic";
 import { Page } from "../components/page";
 import { ContactPopup } from "../components/contact-popup";
