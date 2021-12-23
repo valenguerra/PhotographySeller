@@ -13,5 +13,6 @@ Anotaciones:
 TODO:
 - Si la seccion no tiene ninguna foto, que no se muestre el boton
 - Que las seccioens se ordenen alfabeticamente
+- Seguir esto: https://strapi.io/blog/adding-cloudinary-support-to-your-strapi-application
 
 */
