@@ -25,18 +25,18 @@ export const getStaticProps = async () => {
 
   return {
     props: {
-      sections: categories.map(c => ({ id: c.id, name: c.attributes.name })),
+      sections: categories.map(c => ({ id: c.id, name: c.name })),
       colorFilters: [
         { id: 0, name: "Todos" },
-        ...colorFilters.map(cf => ({ id: cf.id, name: cf.attributes.name })),
+        ...colorFilters.map(cf => ({ id: cf.id, name: cf.name })),
       ],
       products: products.map(p => ({
         id: p.id,
-        name: p.attributes.name,
-        price: priceFormat(p.attributes.price),
-        colorFilterId: p.attributes.color_filter.data.id,
-        categoryIds: p.attributes.categories.data.map(c => c.id),
-        image: getHighestResFormatURL(p.attributes.image),
+        name: p.name,
+        price: priceFormat(p.price),
+        colorFilterId: p.color_filter.id,
+        categoryIds: p.categories.map(c => c.id),
+        image: p.image.url,
       })),
     },
   };

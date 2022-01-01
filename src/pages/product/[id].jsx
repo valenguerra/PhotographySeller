@@ -9,8 +9,8 @@ import { Text } from "../../components/text";
 import { Divider } from "../../components/divider";
 import { ProductTitle } from "../../components/product-title";
 import Image from "next/image";
-import { getFrames, getProduct, getProductsWithNoRelations } from "../../app/api";
-import { getHighestResFormatURL, priceFormat } from "../../app/util";
+import { getFrames, getProduct, getProducts } from "../../app/api";
+import { priceFormat } from "../../app/util";
 import { useRouter } from "next/router";
 import { Page } from "../../components/page";
 import { ContactPopup } from "../../components/contact-popup";
@@ -20,7 +20,7 @@ import dynamic from "next/dynamic";
 const Responsive = dynamic(() => import("../../components/responsive"), { ssr: false });
 
 export const getStaticPaths = async () => {
-  const products = await getProductsWithNoRelations();
+  const products = await getProducts();
   const paths = products.map(p => ({
     params: { id: p.id.toString() },
   }));
@@ -31,20 +31,21 @@ export const getStaticPaths = async () => {
 export const getStaticProps = async ({ params: { id = null } }) => {
   const product = await getProduct(id);
   const frames = await getFrames();
+  console.log("FRAMES: ", frames);
 
   return {
     props: {
       product: {
         id: product.id,
-        image: getHighestResFormatURL(product.attributes.image),
-        name: product.attributes.name,
-        price: priceFormat(product.attributes.price),
+        image: product.image.url,
+        name: product.name,
+        price: priceFormat(product.price),
       },
       frames: frames.map(f => ({
         id: f.id,
-        name: f.attributes.name,
-        price: priceFormat(f.attributes.price),
-        image: getHighestResFormatURL(f.attributes.image),
+        name: f.name,
+        price: priceFormat(f.price),
+        image: f.image.url,
       })),
     },
   };

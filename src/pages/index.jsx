@@ -24,18 +24,19 @@ export const getStaticProps = async () => {
   const sections = [];
 
   categories.forEach(c => {
-    const catProducts = products.filter(p => {
-      const catIds = p.attributes.categories.data.map(cat => cat.id);
+    let catProducts = products.filter(p => {
+      const catIds = p.categories.map(cat => cat.id);
       for (let id of catIds) {
         if (id === c.id) return true;
       }
       return false;
     });
     if (catProducts.length < 4) return;
+    catProducts = catProducts.slice(0, 4);
     sections.push({
       id: c.id,
-      name: c.attributes.name,
-      images: catProducts.map(cp => getHighestResFormatURL(cp.attributes.image)),
+      name: c.name,
+      images: catProducts.map(cp => cp.image.url),
     });
   });
 
