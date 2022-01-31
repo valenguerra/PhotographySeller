@@ -21,6 +21,7 @@ const Responsive = dynamic(() => import("../../components/responsive"), { ssr: f
 
 export const getStaticPaths = async () => {
   const products = await getProducts();
+  console.log("Products:", products);
   const paths = products.map(p => ({
     params: { id: p.id.toString() },
   }));
@@ -31,7 +32,6 @@ export const getStaticPaths = async () => {
 export const getStaticProps = async ({ params: { id = null } }) => {
   const product = await getProduct(id);
   const frames = await getFrames();
-  console.log("FRAMES: ", frames);
 
   return {
     props: {
@@ -89,7 +89,7 @@ export default function Product({ product, frames }) {
               bg='primary300'
               borderRadius={isDesktop ? "small" : 0}
             >
-              <Image src={product.image} layout='fill' objectFit='contain' alt={product.name} />
+              <Image src={product.image} layout='fill' objectFit='contain' alt={product.name} unoptimized/>
             </Box>
             <ProductTitle {...product} />
             <Divider />
@@ -113,7 +113,7 @@ export default function Product({ product, frames }) {
                         overflow='hidden'
                         bg='primary300'
                       >
-                        <Image src={f.image} layout='fill' objectFit='cover' alt={f.name} />
+                        <Image src={f.image} layout='fill' objectFit='cover' alt={f.name} unoptimized/>
                       </Box>
                       <Box
                         display='flex'

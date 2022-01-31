@@ -38,7 +38,7 @@ export const PhotoSection = ({ section: { name, images, id } }) => {
                     borderRadius='small'
                     {...(isDesktop && { height: "300px", width: "300px" })}
                   >
-                    <StyledImage src={url} layout='fill' objectFit='cover' alt={"photo " + i} />
+                    <StyledImage src={url} layout='fill' objectFit='cover' alt={"photo " + i} unoptimized/>
                   </Box>
                 );
               })}

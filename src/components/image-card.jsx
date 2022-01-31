@@ -18,7 +18,7 @@ export const ImageCard = ({ image, alt, children, height, width, ...rest }) => {
         overflow='hidden'
         bg='primary300'
       >
-        <Image src={image} layout='fill' objectFit='cover' alt={alt} />
+        <Image src={image} layout='fill' objectFit='cover' alt={alt} unoptimized/>
       </Box>
       <Box display='flex' bg='accent400' p='12px'>
         {children}
